@@ -1,0 +1,42 @@
+{
+  "name": "typeshelp",
+  "version": "1.0.0",
+  "description": "Work in progress.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peterholak/typeshelp.git"
+  },
+  "author": "",
+  "license": "CC-BY-4.0",
+  "bugs": {
+    "url": "https://github.com/peterholak/typeshelp/issues"
+  },
+  "homepage": "https://github.com/peterholak/typeshelp#readme",
+  "dependencies": {
+    "highlight.js": "^9.14.2",
+    "jquery": "^3.3.1",
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1",
+    "rxjs": "^6.4.0",
+    "zenscroll": "^4.0.2"
+  },
+  "devDependencies": {
+    "@types/highlight.js": "^9.12.3",
+    "@types/jquery": "^3.3.29",
+    "@types/react": "^16.8.2",
+    "@types/react-dom": "^16.8.0",
+    "@types/zenscroll": "^4.0.0",
+    "awesome-typescript-loader": "^5.2.1",
+    "copy-webpack-plugin": "^4.6.0",
+    "html-webpack-plugin": "^3.2.0",
+    "typescript": "^3.4.3",
+    "webpack": "^4.29.3",
+    "webpack-cleanup-plugin": "^0.5.1",
+    "webpack-command": "^0.4.2",
+    "write-file-webpack-plugin": "^4.5.0"
+  }
+}

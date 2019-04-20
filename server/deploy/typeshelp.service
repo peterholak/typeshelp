@@ -1,0 +1,12 @@
+[Unit]
+Description=types.help server
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker start -a typeshelp
+ExecStop=/usr/bin/docker stop typeshelp
+
+[Install]
+WantedBy=default.target

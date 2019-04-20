@@ -1,0 +1,14 @@
+Don't use generic `add(a, b)` examples, instead try to create real-world-like examples from many different domains.
+
+weather
+users (admin/role/permissions/social graph)
+cms (posts/comments/document/etc.)
+game (player, vehicle, level)
+music (note, instrument, bar, effects, tracks)
+smart things (light on/off, socket power usage, temperature, sensors)
+fitness tracking (lap time/pulse/steps)
+
+non-domain types:
+async stuff (Future, HttpResponse, ...)
+
+DO NOT SKIMP OUT ON THE EXAMPLES. THE EXAMPLES MATTER A FUCKTON. PUT PROPER TIME AND EFFORT INTO THEM, EVEN IF THEY'RE SHORT (EVEN BETTER THAT WAY).
