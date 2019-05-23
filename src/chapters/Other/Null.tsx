@@ -44,8 +44,11 @@ export default () =>
             Can you tell where inside <code>renderOverview</code> this code might crash?
         </P>
         <P>
-            The problem lies in the fact that <em>every field</em> inside our <code>SensorOverview</code> structure
-            can potentially have a <code>null</code> value. If <code>latestReading</code> is <code>null</code>,
+            The problem I have in mind lies in the fact that <em>every field</em> inside our <code>SensorOverview</code> structure
+            can potentially have a <code>null</code> value.
+        </P>
+        <P>
+            If <code>latestReading</code> is <code>null</code>,
             trying to evaluate <code>overview.latestReading.value</code> is going to throw a <code>NullPointerException</code>.
         </P>
         <P>
@@ -58,7 +61,15 @@ export default () =>
             These should be required fields, that must be filled before any valid sensor can be registered.
         </P>
         <P>
-            TODO: very short example here of pointless/redundant checks
+            <Code language='java'>{`
+                DocumentBuilder builder = Document.builder();
+                
+                // This check is pointless, our domain has a rule that every sensor
+                // must have an id. Checks like these only add noise to the code.
+                if (overview.sensorId != null) {
+                    builder.addLink(detailsUrl(overview.sensorId))
+                }
+            `}</Code>
         </P>
         <P>
             For the code to be correct, we may need to add null-checks when using some of the fields, but we can't reliably
@@ -74,7 +85,8 @@ export default () =>
         </P>
         <P>
             Incorrect use of <code>null</code> has been the cause of so many bugs and issues over the years, that
-            the inventor of (among many other things) the null reference, Tony Hoare, has called it his <em>billion dollar mistake</em>. TODO link
+            the inventor of (among many other things) the null reference, Tony Hoare, has called it his <em>billion dollar mistake</em>. TODO link,
+            referring to a guess of how much money may have been lost due to this design choice.
         </P>
         <h4>Ways to express optionality</h4>
         <P>
@@ -314,15 +326,17 @@ export default () =>
                 }
             `}</Code>
             <P>
-                Such a check is ultimately pointless, because by the time someone calls the function with a <code>null</code> argument,
-                it is too late to do anything meaningful about it. The problem lies either at the site where <code>readBook</code> is
-                called from, or even before that. What we really need is to stop that incorrect call from occurring in the first place.
+                Such a check is ultimately <EL eid={EK.PointlessCheckMore} unimportant>pointless</EL>, because by the time someone
+                calls the function with a <code>null</code> argument, it is too late to do anything meaningful about it.
+                The problem lies either at the site where <code>readBook</code> is called from, or even before that.
+                What we really need is to stop that incorrect call from occurring in the first place.
             </P>
-            <P>
-                TODO: expand, not completely pointless because it can express the error a little more clearly,
-                and possibly serve as early warning in cases where we wouldn't access any properties, but at
-                the end of the day it still should be expressed via the static type
-            </P>
+            <EA eid={EK.PointlessCheckMore}>
+                It may not be <em>completely</em> pointless, there may be a few benefits, such as more specific
+                error messages, or an early warning in case the function wouldn't naturally
+                crash <LinkTo aid={AnchorKey.ErrorCloseToRootCause}>at that point</LinkTo>. It still does nothing
+                to address the root cause of the problem though.
+            </EA>
             <P>
                 If we can express optionality explicitly, we can clearly separate the parts of the code that can deal
                 with not having books from the parts that can't. We will then only put checks at the boundary
@@ -382,8 +396,7 @@ export default () =>
             </P>
             <P>
                 If these situations can really, realistically occur in our program, then the type being nullable is correct,
-                and we should handle such a case. For example Kotlin's main map/list retrieval methods and the <code>[]</code> operator
-                have nullable return types.
+                and we should handle such a case.
             </P>
             <P>
                 Our program could however be structured in a way where, at some point in the code, there will <em>always</em> be

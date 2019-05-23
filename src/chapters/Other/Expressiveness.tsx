@@ -16,7 +16,7 @@ export default () =>
         <P>
             For example, TypeScript only has one type to represent a number (because of the underlying JavaScript run-time).
             It's called <code>number</code>. There is no way to differentiate between integers and floating point numbers,
-            and therefore no way to <em>express</em> that a certain value must be an integer.
+            and therefore no way to <em>express</em> that a certain value is always an integer.
         </P>
         <Code language="typescript">{`
             function summary(year: number) { }

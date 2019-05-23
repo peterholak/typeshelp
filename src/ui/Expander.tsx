@@ -60,6 +60,7 @@ export enum ExpanderKey {
     NullabilityLimitations,
     NullabilityMore,
     NullabilityPointlessCheck,
+    PointlessCheckMore,
     NullRedundantChecks,
     NullAnnotations,
     NullPairsValidator,
