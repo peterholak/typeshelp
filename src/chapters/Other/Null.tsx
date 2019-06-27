@@ -223,7 +223,7 @@ export default () =>
                     }
 
                     // If we got to this point, it will always be present,
-                    // and we can just directly access it.
+                    // and we can just directly access it (the type is narrowed).
                     const okValue = overview.latestReading.value
 
                     // If we later remove the above \`return\` from code, the compiler
@@ -234,7 +234,7 @@ export default () =>
             }}</Code>
             <P>
                 Yet another way to represent nullable types is the way Kotlin does it, by having a language feature
-                specifically for this purpose. Normal types can never hold <code>null</code> by default. By adding
+                specifically for this purpose. Normal types can never hold <code>null</code> by default in Kotlin. By adding
                 a question mark to the type, we make a nullable type that <em>can</em> hold <code>null</code>.
             </P>
             <Code language="kotlin">{`
@@ -420,8 +420,8 @@ export default () =>
                 if (👉result👈1 is 👉Invalid👈5) {
                     👉result👈1.👉errors👈6.👉forEach👈7 { 👉error👈8 ->
                         // \`formUI\` contains a widget for every field inside \`formData\`.
-                        // We use \`getValue\` (returns a non-nullable type) to assert
-                        // this fact, and will get a run-time error if we were wrong.
+                        // We use \`Map\`'s \`getValue\` (returns a non-nullable type)
+                        // to assert this fact. We'll get a run-time error if we're wrong.
                         👉formUI👈9.👉widgets👈10.👉getValue👈11(👉error👈8.👉fieldName👈12).👉highlight👈13()
                     }
                 }
@@ -451,27 +451,51 @@ export default () =>
             <EA eid={EK.NullPairsValidator}>
                 <P>
                     There are ways to achieve full type safety (without any downcasts or assertions) in the above example,
-                    but all of them come with tradeoffs (and when dealing with 3rd party libraries, you often don't
-                    have a choice anyway).
+                    but all of them come with tradeoff, and when dealing with 3rd party libraries, you often don't
+                    have a choice anyway.
                 </P>
                 <P>
-                    We could make the validator (part of the business logic layer, which we don't want to depend
-                    on the UI layer) and its errors generic (<code>{'Validator<T>'}</code>, <code>{'ValidationError<T>'}</code>),
-                    where the error could refer to any structure (in this case, <code>T</code> would be our <code>Widget</code>),
-                    and the validator would just need some way to get the actual field from that structure—we could give it
-                    a <code>getField: (T) -> Field</code> lambda, or our widgets could implement some kind
-                    of <code>HasField</code> interface. We could then directly retrieve our <code>Widget</code> from
-                    the <code>{'ValidationError<Widget>'}</code>.
+                    We could make the validator code (which we don't want to depend
+                    on the UI layer) and its errors generic (<code>{'Validator<T>'}</code>, <code>{'ValidationError<T>'}</code>).
                 </P>
+                <P>
+                    Instead of making it work with a <code>Field</code>, it would take <em>anything that can give it
+                    a <code>Field</code></em>. We would then provide a way to get the field from our "anything" (<code>T</code>),
+                    either by passing a function <code>getField: (T) -> Field</code> to the validator, or by requiring that
+                    our <code>T</code> implements some kind of <code>HasField</code> interface.
+                </P>
+                <P>
+                    Our <code>T</code> objects (UI widgets in this case) would then simply be passed through
+                    to the resulting validation errors, and we'd get back a list of <code>{`ValidationError<T>`}</code>,
+                    from which we can then safely retrieve our original <code>T</code> objects, and directly use them
+                    without any casts or run-time assertions.
+                </P>
+                <Code language="kotlin">{`
+                    // We have a compile-time guarantee that \`error.source\` is a \`Widget\`,
+                    // yet our \`Validator\` code still knows nothing about any UI.
+                    👉result👈1.👉errors👈2.👉forEach👈3 { 👉error👈4 -> 👉error👈4.👉source👈5.👉highlight()👈6 }
+                `}{{
+                    1: 'result: Invalid<Widget>',
+                    2: 'errors: List<ValidationError<Widget>> 🖊in🖊 Invalid<Widget>',
+                    3: 'fun List<T>.forEach((T) -> Unit): Unit',
+                    4: 'error: ValidationError<Widget>',
+                    5: 'source: Widget 🖊in🖊 ValidationError<Widget>',
+                    6: 'fun Widget.highlight(): Unit'
+                }}</Code>
                 <PersonalOpinion>
                     <P>
                         However, the additional complexity this would introduce may not be worth it. It may sound
                         trivial on its own, but a system where <em>everything</em> is done this way could soon start to look
                         like those "<ExternalLink href="https://github.com/EnterpriseQualityCoding/FizzBuzzEnterpriseEdition">
-                        FizzBuzz Enterprise Edition</ExternalLink>" jokes.
+                        FizzBuzz Enterprise Edition</ExternalLink>" jokes, where every little thing is behind several layers
+                        of indirection.
                     </P>
                     <P>
-                        Simply "connecting" the fields with the widgets using a string (their name) is good enough in this case.
+                        Simply "connecting" the fields with the widgets using a string (their name) is good enough in this case,
+                        assuming we have a guarantee that the strings are unique—which identifiers usually are.
+                    </P>
+                    <P>
+                        You might have a different opinion on this though.
                     </P>
                 </PersonalOpinion>
             </EA>

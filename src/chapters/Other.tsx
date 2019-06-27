@@ -59,6 +59,9 @@ const Other = () => <div>
                 </li>
             </ul>
             <P>
+                The tradeoffs between static and dynamic typing then mostly apply as usual.
+            </P>
+            <P>
                 While languages such as Java have a base <code>Object</code> (or equivalent) type that can contain any value,
                 only the first of the above points holds true in there. Such a language is not considered to use optional typing,
                 it merely has a <LinkTo aid={AnchorKey.WiderNarrower}>top type in a static hierarchy</LinkTo>.
@@ -77,7 +80,7 @@ const Other = () => <div>
             </P>
         </div>
         <div>
-            <ChapterTitle>Implementation concerns, run-time type information, type erasue, reified types</ChapterTitle>
+            <ChapterTitle>Implementation concerns, run-time type information, reflection, type erasue, reified types</ChapterTitle>
             <P>
                 This chapter is not yet complete, check back later.
             </P>
@@ -108,8 +111,12 @@ const Other = () => <div>
                 pass it back into the library.
             </P>
             <P>
-                In a more object-oriented design, the library could group all the supported methods (e.g. <code>record_operation</code>)
-                into an interface, which would then serve as the type for the <code>recording_context</code>.
+                The <code>FILE</code> structure from C's standard library is usually used as an opaque type.
+            </P>
+            <P>
+                If our example above used a more object-oriented design, the library could group all the supported methods
+                (e.g. <code>record_operation</code>) into an interface, which would then serve as the type
+                for the <code>recording_context</code>.
             </P>
             <Code language="c++">{`
                 class recording_context {

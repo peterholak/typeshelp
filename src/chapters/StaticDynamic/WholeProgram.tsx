@@ -194,8 +194,9 @@ export default () =>
                     // After (admittedly this is not the greatest design, but it'll do)
                     data class Value(val n: Double, val unit: ValueUnit)
 
-                    // We'll keep the old \`Point\` class as is, to minimze the amount
-                    // of code we need to change before the project compiles again.
+                    // We'll keep the old \`Point\` class as is, and use this new one
+                    // instead, to minimze the amount of code we need to change before
+                    // the project compiles again. We can have the IDE rename it later.
                     data class PointNew(val x: Value, val y: Value) {
                         fun mm(metrics: Metrics) = Point(metrics.mm(x), metrics.mm(y))
                     }
@@ -246,3 +247,14 @@ export default () =>
             </EA>
         </EA>
     </Anchor>
+
+    /*
+
+
+    issue:
+
+    - real project would use a templating engine for html,
+    so the example is bad
+    
+
+    */

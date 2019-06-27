@@ -41,7 +41,7 @@ export default () =>
         </P>
         <Null />
         <P>
-            <EL eid={EK.ExpressivenessFeatures} example>Sum types, generics, and other type system features</EL>
+            <EL eid={EK.ExpressivenessFeatures} example>Various other features</EL>
         </P>
         <EA eid={EK.ExpressivenessFeatures}>
         <ul>

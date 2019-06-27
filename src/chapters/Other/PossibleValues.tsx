@@ -129,6 +129,9 @@ export default () => <div>
             other times it might crash, or produce an unexpected value. And in a few cases, it might happen to work
             without extra effort (e.g. when just displaying the state as string).
         </P>
+        {/* adding a new enum value is essentially a BC break unless we explicitly specify how unknown values
+        should be handled (in the original version) and make sure that such logic will not fuck things up
+        after the enum values are added */}
     </EA>
     <P><EL eid={EK.DesignExampleCombinations} example>Example 2 - combinations of multiple variables</EL></P>
     <EA eid={EK.DesignExampleCombinations}>
@@ -136,71 +139,76 @@ export default () => <div>
             Another common situation is when we have a number of separate variables, but 
             only some combinations of them are valid values.
         </P>
-        <Code language="typescript">{`
-            // Bad: the properties \`resolution\` and \`fps\` don't make sense for audio clips,
-            // and \`duration\` doesn't make sense for pictures.
-            interface Media {
-                kind: 'video'|'picture'|'audio'
-                resolution: Size
-                fps: number
-                duration: number
-            }
+        <P>
+            Consider the following representation of a UI screen for recording and sending messages.
+            You can record a voice message, play it back to yourself, and if you're satisfied with it,
+            you can send it to the recipient.
+        </P>
+        <Code language="kotlin" collapsible={9}>{`
+            // TODO: change to go for greater language variability in the article
+            // states: idle, recording, recorded, playing
+            // playing implies recorded, has same fields, the non-flat hierarchy hints that it's two separate things
+            // there is also sending where the rest of the UI is disabled, but again, that is mostly a separate dimension
+            class RecordingUI {
+                var isRecording = false
+                var isPlaying = false
+                var message: AudioData? = null
+                var hasRecordedMessage = false
 
-            function textInformation(media: Media) {
-                // We have to make sure at every step that we don't access a property
-                // that doesn't make sense in the situation (or the value will be garbage,
-                // we might get unexpected behavior, etc.)
-                return \`Resolution: \${media.resolution.toString()} ...\`
-            }
+                // Assume a primitive UI library with only manual updating.
+                fun updateUI() {
+                    lengthText.visible = hasRecordedMessage
+                    if (hasRecordedMessage) {
+                        lengthText.value = message!!.length
+                    } else {
 
-            ✂
-            // Good: every type only has properties that are valid for it.
-            // (In a language with nominal typing, this would be achieved using interfaces.)
-            interface Video {
-                kind: 'video'
-                resolution: Size
-                duration: number
-                fps: number
-            }
-
-            interface Picture {
-                kind: 'picture'
-                resolution: Size
-            }
-
-            interface Audio {
-                kind: 'audio'
-                duration: number
-            }
-
-            type Media = Video|Picture|Audio
-
-            function textInformation(media: Media) {
-                // The compiler won't let us access a property that might not be there.
-                return \`Resolution: \${media.💀resolution💀.toString()} ...\`
-            }
-
-            ✂
-            function textInformation(media: Media) {
-                // We can still access \`media.kind\` that exists on all media types,
-                // but are forced to check for the other ones.
-                if (media.kind == 'video' || media.kind == 'picture') {
-                    return \`Resolution: \${media.resolution.toString()} ...\`
+                    }
                 }
-                // ...
-            }
 
-            // We can also make functions that only work for pictures and videos
-            function generateThumbnail(media: Picture|Video) {
-                // ...
+                fun onRecordButtonClicked() {
+                    isRecording = true
+                    updateUI()
+                }
+
+                fun onFinishRecordingClicked() {
+                    message = recording
+                    hasRecordedMessage = true
+                    isRecording = false
+                    updateUI()
+                }
             }
         `}</Code>
-        <P>(TODO: more oop way might be adding generateThumbnail directly onto the interfaces, but that would
-            then violate SRP, and we couldn't have pluggable thumbnail generators. Also we are kinda relying on specific
-            implementations here, but good enough.)
-            (TODO: in general this is a pretty bad example, because it is showcasing different kinds of things,
-            which are then trivially separated into proper subtypes. a better example would be showcasing things
-            that exists in certain states, the error/ok situation, or I dunno, something better...)
+        <P>
+            If you look at the <code>var</code>s near the beginning of the class, you may notice
+            that not all possible combinations of them are valid states.
+        </P>
+        <P>
+            For starters, the <code>hasRecordedMessage</code> field is redundant and counter-productive.
+            Whether we have a recorded message or not is already determined by the combination
+            of <code>message</code> being non-null and <code>isRecording</code> being false.
+            If we keep <code>hasRecordedMessage</code> as a separate variable and try to adjust its value manually,
+            we will sooner or later run into a situation where we screw up somewhere and end up with an invalid combination
+            of all the variables.
+            Perhaps after adding a new feature during which the data structure will change slightly.
+            Because <code>updateUI</code> assumes that <code>hasRecordedMessage</code> being true also
+            implies <code>message</code> being non-null, such a desynchronization can easily result
+            in a crash of our application.
+        </P>
+        <P>
+            <code>hasRecordedMessage</code> should obviously be a calculated field, to give us a single source of truth. 
+            Simple enough:
+        </P>
+        <Code language="kotlin">{`
+            val hasRecordedMessage: Boolean
+                get() = message != null && isRecording == false
+        `}</Code>
+        <P>
+            But there are other invalid states still possible in our code.
+        </P>
+        <P>
+            The way our UI works, we cannot record a new message until we have deleted the old one.
+            The UI either shows only a "Record" button, or the three "Play", "Delete", "Send" buttons.
+            TODO: playing are recording kinda are separate
         </P>
         <P>
             Usually this representation requires a language that can express sum types (TODO link).
@@ -211,6 +219,11 @@ export default () => <div>
             Another situation everyone comes across is when we want to express "result <strong>or</strong> error",
             instead of having two separate variables "result <strong>and</strong> error", where it doesn't make sense
             for both to contain valid values at the same time.
+        </P>
+        <P>
+            There is still the possibility of having the UI itself getting out of sync with our data, e.g. displaying
+            an enabled "Send" button when there is no recording. Such issues can be mostly solved by declarative UI
+            libraries such as React, and the many libraries inspired by it.
         </P>
     </EA>
     <P><EL eid={EK.DesignExampleInitialization} example>Example 3 - initialization and other state</EL></P>

@@ -12,23 +12,18 @@ const Intro = (props: { theme: ThemeData }) => <div style={withTheme(props.theme
         or writing your opinion about that part. <EL eid={EK.FeedbackSandbox}>Try it out!</EL>
     </P>
     <P>
-        I plan on improving and adding contents to this document, so check back later. You can switch
+        I plan on improving and adding content to this document, so check back later. You can switch
         between light/dark themes at the bottom of the page.
     </P>
 
     <EA eid={EK.Focus}>
-        <p>
-            All the information here is mostly what I know from experience over the years,
-            including the discussions, articles and documentation I have read during that time.
-        </p>
         <p>
             I want to describe the terms how people use them in common programming jargon.
             Think more Urban Dictionary than Wikipedia. I also tried to make the text reasonably newbie-friendly,
             and use realistic examples wherever possible.
         </p>
         <p>
-            The focus is mainly on <em>practical consequences</em> of popular languages' design choices, and the features
-            and limitations of their type systems.
+            The focus is mainly on <em>practical consequences</em> of popular languages' design choices.
         </p>
         <p>
             If you encounter 

@@ -20,7 +20,8 @@ export enum AnchorKey {
     Reflection,
     Defensive,
     Initialization,
-    NullabilityLimitations
+    NullabilityLimitations,
+    Implementation
 }
 
 export interface LinkClickState {

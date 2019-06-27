@@ -128,6 +128,8 @@ const StrongWeak = () =>
             </P>
             <P>
                 On the other hand, such checks can also make the program fail in harmless, "false positive" situations.
+                You probably wouldn't want your program to crash in production just because a low‑level log message
+                couldn't be constructed (even though it's an issue that obviously should be fixed).
             </P>
             <P>
                 People often confuse the term strong typing with static typing. While strong typing implies somewhat strict
