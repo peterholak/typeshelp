@@ -8,6 +8,8 @@ export default () =>
     <Anchor aid={AnchorKey.Inference} useParent={true}>
         <h3>Explicit types and type inference</h3>
         <P>
+            TODO: mention and link to automatic narrowing somewhere in this chapter. the actual text should be in
+            the wider/narrower section
             In <strong>some</strong> static languages you have to explicitly write down the types
             in many places.
         </P>
@@ -80,6 +82,8 @@ export default () =>
             `}</Code>
         </EA>
         <P>
+            TODO: also show how a chain of things inferred e.g. from an anonymous function creating a pair
+            from two values, where one is the result of a function call, etc.
             Some people feel that relying a lot on type inference can worsen readability. These concerns
             are usually addressed with <EL eid={EK.InferenceReadability}>editor features</EL>.
         </P>

@@ -74,6 +74,8 @@ export default () =>
         <P>
             For the code to be correct, we may need to add null-checks when using some of the fields, but we can't reliably
             tell which ones! And therein lies the problem with the type system of Java, and many other languages.
+        </P>
+        <P>
             We have no way to <em>express the fact that certain values will never be <code>null</code>, and others might</em>.
             In Java, every non-primitive type (the vast majority) can potentially hold a <code>null</code> value.
         </P>
@@ -82,6 +84,49 @@ export default () =>
             on documentation, convention, additional tests, and perhaps other unwritten assumptions (such as the present state),
             when it comes to how we access the values inside our fields. If in the future, some of these assumptions
             no longer hold true after a number of changes to the codebase, we have a bug on our hands.
+        </P>
+        <P>
+            If we look at <code>SensorOverview</code> structure from a producer/consumer perspective, we really want
+            to achieve two things.
+        </P>
+        <ul>
+            <li>
+                The producer—the part of the code that <em>creates</em> <code>SensorOverview</code> instances—must
+                guarantee that certain fields will never be null. The compiler should not let its code build if it tries
+                to create an instance where those fields could potentially be assigned a <code>null</code> value.
+            </li>
+            <li>
+                The consumer—such as our <code>SensorRenderer</code> class, that merely reads data from
+                existing <code>SensorOverview</code> instances—can freely access fields that are guaranteed to never
+                be <code>null</code>, but it cannot access potentially <code>null</code> fields without some kind of check.
+            </li>
+        </ul>
+        <P>
+            Again, this is just like the basic principle of static typing. If we imagine a simplified form of our structure
+            and just look at the types:
+        </P>
+        <Code language="java">{`
+            class SensorOverview {
+                public String name;
+                public Object extraData;
+            }
+        `}</Code>
+        <ul>
+            <li>
+                The producer must guarantee that the <code>name</code> field will always be a string, and not
+                a list or a number. Otherwise the compiler will not let that code build.
+                It makes no such guarantees about <code>extraData</code>, even though <code>extraData</code> <em>could</em> be a string
+                sometimes.
+            </li>
+            <li>
+                The consumer can rely on the fact that <code>name</code> is a string and not a list or a number.
+                It can just directly use it as a string. On the other hand, if it wants to use <code>extraData</code> as
+                some specific type, it must first perform a check that it really is of that type.
+            </li>
+        </ul>
+        <P>
+            This becomes kinda obvious. To solve our <code>null</code> issues, we just need to have a way in our
+            type system to <em>express</em> facts about optionality of certain parts of our data.
         </P>
         <P>
             Incorrect use of <code>null</code> has been the cause of so many bugs and issues over the years, that
@@ -112,6 +157,7 @@ export default () =>
             When working with optional values, we can do a manual check
         </P>
         <Code language="rust">{`
+            // Hover over variables to see their types
             match 👉total_sum👈1 {
                 Some(👉sum👈2) => println!("Double the sum is {}", 👉sum👈2 * 2)
                 None => println!("There is no sum")
@@ -406,7 +452,8 @@ export default () =>
             </P>
             <P>
                 Imagine an application where the users can design their own forms, and other users then
-                fill those forms with data. Part of the form validation code could look similar to this:
+                fill those forms with data. That means the structure of any particular form is only knowable
+                at run-time (it is data). Part of the form validation code could look similar to this:
             </P>
             <Code language="kotlin">{`
                 // Hover over variables to see their types.
@@ -488,14 +535,23 @@ export default () =>
                         trivial on its own, but a system where <em>everything</em> is done this way could soon start to look
                         like those "<ExternalLink href="https://github.com/EnterpriseQualityCoding/FizzBuzzEnterpriseEdition">
                         FizzBuzz Enterprise Edition</ExternalLink>" jokes, where every little thing is behind several layers
-                        of indirection.
+                        of indirection (instead of "I have a field", we could get to "I have something that can give me something
+                        that can then give me a field).
                     </P>
                     <P>
                         Simply "connecting" the fields with the widgets using a string (their name) is good enough in this case,
                         assuming we have a guarantee that the strings are unique—which identifiers usually are.
+                        Plus it makes it easier to serialize the validation results should we need that in the future.
                     </P>
                     <P>
                         You might have a different opinion on this though.
+                    </P>
+                    <P>
+                        Also, with modern React-like UI libraries, you wouldn't use direct references to the UI widgets.
+                        The form component would render the widgets in each state based on the fields' descriptions
+                        and the validation results. You would iterate over the existing fields when rendering them
+                        and the presence/absence of their key in the list of validation errors would determine
+                        whether you render the error part of the UI or not.
                     </P>
                 </PersonalOpinion>
             </EA>
@@ -508,7 +564,12 @@ export default () =>
                 but that would mean we are writing code for a branch that we never expect to run—it will only run
                 if future changes break our assumption (which likely means we then have a bug in our code). There may also be no
                 good way to continue with the program's execution from such a state (e.g. the user could be stuck editing
-                a form that can never be made valid). The tradeoff between overly defensive programming versus too many
+                a form that can never be made valid).
+            </P>
+            <P>
+                It may be better to have a test for <em>"entries for all fields must appear in this map"</em>,
+                as that is the guarantee that we expect from the producer of our data.
+                The tradeoff between overly defensive programming versus too many
                 unwritten assumptions is discussed more in its <LinkTo aid={AnchorKey.Defensive}>own chapter</LinkTo>.
             </P>
             <P>
@@ -517,4 +578,12 @@ export default () =>
             </P>
             </Anchor>
         </EA>
+        <h4>The null object (anti?)pattern and magic values</h4>
+        <P>
+            TODO: responsibility split between caller/callee, even outside of this chapter as a common theme
+            TODO: some parts of this chapter could use better examples. also to ease of use chapter, e.g. toInt() toIntOrNull()
+        </P>
+        <P>
+
+        </P>
     </EA>

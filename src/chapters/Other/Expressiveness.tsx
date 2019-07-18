@@ -84,11 +84,46 @@ export default () =>
             <EL eid={EK.EaseOfUse} example>Ability to express things and ease of use</EL>
         </P>
         <EA eid={EK.EaseOfUse}>
+            <P>
+                You have no doubt been in a situation where you had to pick a programming language for a project.
+                When it comes to general purpose languages these days, the truth is you can pretty much write
+                anything in anything.
+            </P>
+            <P>
+                But just because you <em>can</em> doesn't mean that you <em>should</em>. Writing a modern web
+                application front-end in C++ may be possible, but the experience and productivity will probably be very bad.
+                Probably best to stick to JavaScript/TypeScript/ClojureScript/Elm/etc. in such a case.
+            </P>
+            <P>
+                The same is true for type systems of popular programing languages.
+            </P>
         </EA>
         <P>
             <EL eid={EK.ExpressImmutability} example>Ways to express immutability</EL>
         </P>
         <EA eid={EK.ExpressImmutability}>
-            
+            <h4>Mutable and immutable API</h4>
+            <P>
+                List vs MutableList (not truly immutable, not sure what the backing impl is)
+            </P>
+
+            <h4>Final variable bindings</h4>
+            <P>
+                Shallow (val to object with vars), deep (val to object that can only contain vals, swift, rust)
+                Personal opinion - having immutable be default is great practice, Kotlin vs Java gravitate towards easiest solution, etc.
+            </P>
+
+            <h4>Const-correctness</h4>
+            <P>
+                C++, underlying data is still mutable, but this expresses who can mutate it and where
+                practice, const_cast, duplicate functions, unnecessary use of templates?
+                transitive vs. non transitive const (compare to D)
+            </P>
+
+            <h4>Runtime-only immutability</h4>
+            <P>
+                Object freezing, runtime errors, early warning/strong typing
+                Like dynamic typing, same object frozen/unfrozen at different times in the program
+            </P>
         </EA>
     </Anchor>

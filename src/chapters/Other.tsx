@@ -80,7 +80,7 @@ const Other = () => <div>
             </P>
         </div>
         <div>
-            <ChapterTitle>Implementation concerns, run-time type information, reflection, type erasue, reified types</ChapterTitle>
+            <ChapterTitle>Implementation concerns, performance, run-time type information, reflection, type erasue, reified types</ChapterTitle>
             <P>
                 This chapter is not yet complete, check back later.
             </P>
@@ -107,8 +107,9 @@ const Other = () => <div>
                 we are using in the example. It can even use different implementations on different platforms.
             </P>
             <P>
-                This type is <em>opaque</em> to our code—a black box that we can't operate on directly—we can only
-                pass it back into the library.
+                This type is <em>opaque</em> to our code—a black box that we can't operate on directly—if it's a pointer to a struct,
+                we cannot access the struct's members. We may not even know whether it's a struct internally.
+                We can only pass it back into the library.
             </P>
             <P>
                 The <code>FILE</code> structure from C's standard library is usually used as an opaque type.

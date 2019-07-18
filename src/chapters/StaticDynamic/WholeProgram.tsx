@@ -229,12 +229,13 @@ export default () =>
                 </P>
                 <P>
                     In a statically typed language, you will either need to adapt those parts too, or at the very least
-                    comment out their code and replace it with a "TODO" exception.
+                    comment out their code and replace it with a "TODO" exception, or return some kind of "empty" value.
                 </P>
                 <Code language="kotlin">{`
                 fun breakIntoLines(circle: Circle, minStepAngle: Double): List<Line> {
                     // We won't be needing this function any time soon, not until
                     // we have the final design for values with arbitrary units.
+                    // We still need to edit it though for the project to compile.
                     TODO()
                 }
                 `}</Code>
