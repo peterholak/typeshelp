@@ -1,7 +1,8 @@
+extern crate ctrlc;
 extern crate dotenv;
 extern crate r2d2;
-extern crate r2d2_sqlite;
 extern crate r2d2_postgres;
+extern crate r2d2_sqlite;
 #[macro_use]
 extern crate rouille;
 extern crate rusqlite;
@@ -9,19 +10,20 @@ extern crate rusqlite;
 extern crate serde_derive;
 #[macro_use]
 extern crate strum_macros;
-extern crate ctrlc;
 
-mod comments;
+use std::env;
+use std::fs::File;
+//use comments::postgres::*;
+use std::process;
 
 use dotenv::dotenv;
 use rouille::Request;
 use rouille::Response;
-use std::env;
+
 use comments::*;
 use comments::sqlite::*;
-//use comments::postgres::*;
-use std::process;
-use std::fs::File;
+
+mod comments;
 
 fn main() {
     dotenv().ok();
@@ -36,10 +38,9 @@ fn main() {
 
     let comments = CommentSqliteDatabase::new(database);
 
-    let closer = comments.get_closer().deref();
     ctrlc::set_handler(move || {
         println!("Signal received, exiting...!");
-        closer.finish_writes();
+
         process::exit(0)
     }).unwrap();
 

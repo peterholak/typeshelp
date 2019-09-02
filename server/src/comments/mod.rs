@@ -1,7 +1,6 @@
-use std::sync::Mutex;
 use std::error::Error as StdError;
 use std::fmt;
-use std::rc::Rc;
+use std::sync::Mutex;
 
 pub mod sqlite;
 pub mod postgres;
@@ -37,16 +36,6 @@ pub struct Comment {
 
 pub trait CommentDatabase {
     fn save_comment(&self, comment: Comment, ip: &str) -> Result<(), Error>;
-    fn get_closer(&self) -> Rc<DatabaseCloser>;
-}
-
-pub trait DatabaseCloser {
-    fn finish_writes(&self);
-}
-
-pub struct NoopCloser { }
-impl DatabaseCloser for NoopCloser {
-    fn finish_writes(&self) { }
 }
 
 pub struct CommentInMemoryDatabase {
@@ -64,9 +53,5 @@ impl CommentDatabase for CommentInMemoryDatabase {
     fn save_comment(&self, comment: Comment, _ip: &str) -> Result<(), Error> {
         self.comments.lock().unwrap().push(comment);
         Ok(())
-    }
-
-    fn get_closer(&self) -> Rc<DatabaseCloser> {
-        Rc::new(NoopCloser {})
     }
 }

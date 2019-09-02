@@ -1,18 +1,13 @@
-use r2d2::Pool;
-use r2d2_sqlite::SqliteConnectionManager;
 use std::path::Path;
 use std::time::SystemTime;
 use std::time::UNIX_EPOCH;
-use std::thread;
-use std::time::Duration;
+
+use r2d2::Pool;
+use r2d2_sqlite::SqliteConnectionManager;
+
 use comments::*;
-use std::rc::Rc;
 
 pub struct CommentSqliteDatabase {
-    pool: Pool<SqliteConnectionManager>
-}
-
-struct SqliteCloser {
     pool: Pool<SqliteConnectionManager>
 }
 
@@ -59,19 +54,5 @@ impl CommentDatabase for CommentSqliteDatabase {
             )
             .map(|_| ())
             .map_err(|_| Error{})
-    }
-
-    fn get_closer(&self) -> Rc<DatabaseCloser> {
-        Rc::new(SqliteCloser { pool: self.pool.clone() })
-    }
-}
-
-impl DatabaseCloser for SqliteCloser {
-    fn finish_writes(&self) {
-        let mut counter = 0;
-        while self.pool.state().connections != self.pool.state().idle_connections && counter < 30 {
-            counter += 1;
-            thread::sleep(Duration::from_millis(100));
-        }
     }
 }
