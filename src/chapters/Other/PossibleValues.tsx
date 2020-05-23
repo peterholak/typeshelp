@@ -23,10 +23,11 @@ export default () => <div>
     </ul>
     <h3>Software design and types</h3>
     <P>
-        When using <LinkTo aid={AnchorKey.StaticDynamic}>static typing</LinkTo>, one of the goals of good code design is to use types that can only represent
+        When using <LinkTo aid={AnchorKey.StaticDynamic}>static typing</LinkTo>, it tends to be a good idea to use types that can only represent
         the values which are valid within the problem domain. In other words, making invalid states
         not representable at compile-time.
     </P>
+    <P>There can however be trade-offs involved, and it <em>is</em> possible to take this principle too far.</P>
     <P><EL eid={EK.DesignExampleEnum} example>Example 1 - strings and enums</EL> TODO: use scala to have more language variety in examples?</P>
     <EA eid={EK.DesignExampleEnum}>
         <Code language="kotlin">{`
@@ -243,5 +244,9 @@ export default () => <div>
             // TODO: or a possible deinit happening in between
         `}</Code>
         </Anchor>
+    </EA>
+    <P><EL eid={EK.DesignExampleExternalData} example>Example 4 - external data and security</EL></P>
+    <EA eid={EK.DesignExampleExternalData}>
+        Taints, validation, not very popular, go into reasons why
     </EA>
 </div>

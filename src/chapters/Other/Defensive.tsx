@@ -112,4 +112,6 @@ export default () =>
             </li>
         </ul>
         {/* TODO: the more local the assumptions are, the less of a big deal it is */}
+        {/* TODO: the general themes of sections and barriers/interfaces between them is sprinkled all over the place,
+        maybe write a summary specifically focusing on that somewhere. */}
     </div>

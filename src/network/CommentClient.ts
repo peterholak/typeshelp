@@ -35,7 +35,7 @@ export enum CommentType {
     NotCorrect,
     OmitsImportantPoint,
     Great,
-    NeedlesslyOverexplained,
+    Boring,
     Other
 }
 
@@ -43,7 +43,7 @@ export const commentTypes: CommentType[] =
     Object
         .entries(CommentType)
         .filter(pair => typeof pair[1] === 'number')
-        .map(pair => pair[1])
+        .map(pair => pair[1] as CommentType)
 
 export interface CommentPayload {
     text: string,

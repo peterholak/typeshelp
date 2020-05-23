@@ -40,6 +40,7 @@ export default () => <div>
                 There also needs to be some way to express completely <LinkTo aid={AnchorKey.Opaque}>opaque types</LinkTo> in
                 a structurally typed language.
             </li>
+            {/* TODO: maybe also a more complex inheritance hierarchy example (but realistic) */}
         </ul>
 
         <PersonalOpinion>
@@ -52,7 +53,8 @@ export default () => <div>
                 Structural typing can make things such as code generation (e.g. from a SQL schema) easier, because common
                 subsets of fields such as <code>(id, name)</code> can be directly used, instead of
                 the generator having to extract them into interfaces that the other generated classes
-                then implement.
+                then implement. Or not extracting them, and then not having a common usable supertype at all—sometimes
+                it is not necessary.
             </P>
         </PersonalOpinion>
         <P>

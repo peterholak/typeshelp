@@ -8,12 +8,12 @@ export default () =>
     <Anchor aid={AnchorKey.BlackAndWhite} useParent={true}>
         <h3>Crossover</h3>
         <P>
-            The mentioned differences between static and dynamic languages are not completely black and white.
+            The differences between static and dynamic languages are not completely black and white.
             There are always some "dynamic" features - ways to express <EL eid={EK.StaticDynamicFeatures}>polymorphism</EL>{' '}
             in statically typed languages—situations where the concrete type will only be known at run-time.
         </P>
         <P>
-            On the other side, you can sometimes perform
+            On the other side, you can perform
             {' '}<EL eid={EK.DynamicStaticAnalysis}>limited static analysis</EL> even on dynamically typed code.
         </P>
         <P>
@@ -143,8 +143,7 @@ export default () =>
             </P>
             <P>
                 In order to not burden the programmer with tons of false positives, they tend to only
-                flag things they can be certain about—arguably the least interesting parts
-                from a static analysis perspective. Most people don't mind however—after all,
+                flag things they can be certain about. Most people don't mind however—after all,
                 they didn't choose a dynamic language only to then have to adhere to a strict schema
                 everywhere. (TODO: maybe link to the schema workflow thing.)
             </P>

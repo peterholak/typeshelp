@@ -52,6 +52,8 @@ export enum ExpanderKey {
     DesignExampleEnum,
     DesignExampleCombinations,
     DesignExampleInitialization,
+    DesignExampleExternalData,
+    Contract,
     MapsStringKeys,
     Null,
     ExpressivenessFeatures,
