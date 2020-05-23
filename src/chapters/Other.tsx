@@ -27,12 +27,14 @@ const Other = () => <div>
             </P>
             <ul>
                 <li>
+                    <Anchor aid={AnchorKey.OptionalFirst} useParent>
                     all values can be assigned to a variable of the <code>any</code> type
                     <Code language="typescript">{`
                     function saveForLater(data: any) { /* ... */ }
                     saveForLater("string")
                     saveForLater({ name: 'Jim', id: 10 })
                     `}</Code>
+                    </Anchor>
                 </li>
                 <li>
                     value with type <code>any</code> can be assigned into all variables regardless of their type
@@ -62,8 +64,15 @@ const Other = () => <div>
                 The tradeoffs between static and dynamic typing then mostly apply as usual.
             </P>
             <P>
+                TypeScript supports a <code>noImplicitAny</code> option,
+                enabled by default in its strict mode, that helps avoid accidental <code>any</code> variables in the code.
+            </P>
+            <P>
+                C#'s <code>dynamic</code> type behaves in a very similar way.
+            </P>
+            <P>
                 While languages such as Java have a base <code>Object</code> (or equivalent) type that can contain any value,
-                only the first of the above points holds true in there. Such a language is not considered to use optional typing,
+                only <LinkTo aid={AnchorKey.OptionalFirst}>the first</LinkTo> of the above points holds true in there. Such a language is not considered to use optional typing,
                 it merely has a <LinkTo aid={AnchorKey.WiderNarrower}>top type in a static hierarchy</LinkTo>.
             </P>
             <P>
@@ -80,10 +89,12 @@ const Other = () => <div>
             </P>
         </div>
         <div>
+            <Anchor aid={AnchorKey.Implementation} useParent>
             <ChapterTitle>Implementation concerns, performance, run-time type information, reflection, type erasue, reified types</ChapterTitle>
             <P>
                 This chapter is not yet complete, check back later.
             </P>
+            </Anchor>
         </div>
         <div>
             <Anchor aid={AnchorKey.Opaque} useParent>
@@ -108,14 +119,14 @@ const Other = () => <div>
             </P>
             <P>
                 This type is <em>opaque</em> to our code—a black box that we can't operate on directly—if it's a pointer to a struct,
-                we cannot access the struct's members. We may not even know whether it's a struct internally.
+                we cannot access the struct's members. We may not even know whether it's a struct internally—could just be a numeric identifier.
                 We can only pass it back into the library.
             </P>
             <P>
                 The <code>FILE</code> structure from C's standard library is usually used as an opaque type.
             </P>
             <P>
-                If our example above used a more object-oriented design, the library could group all the supported methods
+                If our example above used a more object-oriented design and language, the library could group all the supported methods
                 (e.g. <code>record_operation</code>) into an interface, which would then serve as the type
                 for the <code>recording_context</code>.
             </P>

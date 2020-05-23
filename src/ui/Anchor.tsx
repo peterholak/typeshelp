@@ -8,7 +8,7 @@ export enum AnchorKey {
     Inference,
     WholeProgram,
     BlackAndWhite,
-    Workflows,
+    TestsSchemasSpecs,
     StructuralNominal,
     Expresiveness,
     WiderNarrower,
@@ -21,7 +21,11 @@ export enum AnchorKey {
     Defensive,
     Initialization,
     NullabilityLimitations,
-    Implementation
+    Implementation,
+    WeatherFirst,
+    WeatherSecond,
+    WeatherThird,
+    OptionalFirst
 }
 
 export interface LinkClickState {

@@ -25,8 +25,8 @@ function commentButtonData(type: CommentType): CommentButtonData {
         case CommentType.Great:
             return { title: 'This is great', emoji: '👍', color: '#aaffaa' }
 
-        case CommentType.NeedlesslyOverexplained:
-            return { title: 'Needlessly over-explained', emoji: '💤', color: '#dddddd' }
+        case CommentType.Boring:
+            return { title: 'Too boring to bother reading', emoji: '💤', color: '#dddddd' }
 
         case CommentType.Other:
             return { title: 'Other', emoji: '💬', color: undefined }
@@ -197,7 +197,7 @@ export class CommentOverlay extends React.Component<OverlayProps, OverlayState> 
                             </textarea>
                             <div style={themed(infoTextStyle)}>
                                 Your comment will not be visible yet, but might be in a future update.
-                                If you want to publicly discuss this part, open a {' '}
+                                If you want to discuss this part in detail, open a {' '}
                                 <a style={themed(issueLinkStyle)} target="_blank" href="https://github.com/peterholak/typeshelp/issues">github issue</a>.
                             </div>
                         </div>

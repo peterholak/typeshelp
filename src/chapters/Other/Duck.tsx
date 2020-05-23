@@ -6,6 +6,7 @@ import { LinkTo, AnchorKey, Anchor } from 'ui/Anchor'
 
 export default () =>
     <div>
+        <Anchor aid={AnchorKey.Duck} useParent>
         <ChapterTitle>Duck typing</ChapterTitle>
         <P>
             Some dynamically typed languages describe themselves as utilizing something called "duck typing".
@@ -48,14 +49,15 @@ export default () =>
             by how you use the variable. In other words, there is no explicit schema (TODO link).
         </P>
         <P>
-            It is also a little similar to the idea that you should "code to an interface, not an implementation", which
+            It is also a little similar to the idea that you should "code to an interface, not an implementation"
+            (i.e. don't rely on the concrete type and its specific detailed behavior), which
             is a popular piece of advice in many object-oriented languages. But again, most of those languages
             use <LinkTo aid={AnchorKey.StructuralNominal}>nominal typing</LinkTo>, where the link between the interface
-            and the implementation is explicit (as is the structure of the interface).
+            and the implementation is explicit—as is the structure of the interface.
         </P>
         <P>
             Duck typing is an inevitable consequence of how most dynamic languages work, not something
-            their authors consciously have to implement. It is more a style of coding, rather than a property of a language,
+            their authors consciously have to implement. It is more a <em>style of coding</em>, rather than a property of a language,
             although the language must support dynamic types to make it possible to write in this style.
         </P>
         <P>
@@ -74,6 +76,7 @@ export default () =>
             </P>
             <Anchor aid={AnchorKey.ErrorCloseToRootCause}>
             <P>
+                {/** TODO: split this part off into its own section somewhere? it is linked from many places unrelated to duck */}
                 In the better cases, any error will manifest itself directly in the function where you
                 pass something unexpected, so you will be alerted to it quickly.
             </P>
@@ -117,4 +120,5 @@ export default () =>
             </P>
             </Anchor>
         </EA>
+        </Anchor>
     </div>

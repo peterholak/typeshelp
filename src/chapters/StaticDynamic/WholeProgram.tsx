@@ -14,11 +14,12 @@ export default () =>
                 (TypeScript <em>can</em> emit code even when there are type errors, because the resulting JS doesn't
                 rely on the type information at run-time in any way. This is however a pretty rare exception
                 - most languages are not like that. People usually consider a program with build errors as unusable anyway.)
+                See the chapter about <LinkTo aid={AnchorKey.Implementation}>implementation concerns</LinkTo> for more details.
             </EA>
         </P>
         <P>
             With dynamic typing, <em>only the branches that actually run</em> will be affected by type errors.
-            Similarly, only data that's actually used at run-time will cause type errors.
+            Similarly, only data that's actually used at run-time can cause type errors.
         </P>
         <P>
             <EL eid={EK.ExampleBranches} example>Example</EL>
@@ -48,6 +49,7 @@ export default () =>
                     or calling a function with the wrong number of arguments.
                 </P>
                 <P>This makes sense when you think about how all of these things are only resolved at run-time in dynamic languages.</P>
+                <P>Many editors can catch a subset of such mistakes even in dynamically typed languages. (TODO link)</P>
             </EA>
             <P>
                 The same program in Java simply won't compile, because <em>all</em> of the branches must be correct:
@@ -174,7 +176,7 @@ export default () =>
             </P>
             <EA eid={EK.StaticPrototyping}>
                 <P>
-                    Having to make all of the code correct all the time can be a nuisance, when all you need
+                    Having to make <em>all of the code</em> correct all the time can be a nuisance, when all you need
                     is to try out a temporary change, that you will very likely soon revert anyway.
                     You may have an existing codebase of a drawing program, where all coordinates use millimeters
                     as their unit.

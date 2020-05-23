@@ -9,7 +9,8 @@ const StrongWeak = () =>
         <h2>Strong typing ↔ Weak typing</h2>
         <P className="subtitle">
             These are poorly defined terms, with many people disagreeing on what exactly they mean. It usually
-            has to do with a degree of <em>strictness</em>, with strong typing being regarded as more strict.
+            has to do with built-in run-time checks, and a degree of <em>strictness</em>,
+            with strong typing being regarded as more strict.
         </P>
         <ul className="summary">
             <li>
@@ -117,7 +118,7 @@ const StrongWeak = () =>
                 later "why is there a 12 in my database?".
             </P>
             <P>
-                In some programs, the problem may only occur in a specific branch, or with specific kind of data,
+                In some programs, the problem may only occur in a specific branch of execution, or with specific kind of data,
                 making the cause difficult to track down.
             </P>
             <P>

@@ -20,7 +20,7 @@ const config = {
     },
     module: {
         rules: [
-            {test: /\.tsx?$/, use: 'awesome-typescript-loader', exclude: /node_modules/}
+            {test: /\.tsx?$/, use: 'ts-loader'}
         ]
     },
     plugins: [

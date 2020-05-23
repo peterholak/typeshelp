@@ -45,26 +45,27 @@ export default () =>
         </P>
         <P>
             The problem I have in mind lies in the fact that <em>every field</em> inside our <code>SensorOverview</code> structure
-            can potentially have a <code>null</code> value.
+            can potentially have a <code>null</code> value. (And every field inside its <code>SensorLocation</code> and so on.)
         </P>
         <P>
             If <code>latestReading</code> is <code>null</code>,
             trying to evaluate <code>overview.latestReading.value</code> is going to throw a <code>NullPointerException</code>.
         </P>
         <P>
-            The mere existence of <code>null</code> is <strong>not</strong> a problem on its own however. What if we
+            On the other hand, the <code>null</code> value exists for a reason. What if we
             have a new sensor that we just finished setting up? Of course there isn't going to be any "latest reading" just yet!
             The value <code>null</code> sounds like a perfectly appropriate way to describe such a situation.
         </P>
         <P>
-            On the other hand, for <code>sensorId</code> and <code>name</code>, it doesn't make sense to ever be <code>null</code>.
-            These should be required fields, that must be filled before any valid sensor can be registered.
+            For <code>sensorId</code> and <code>name</code>, it doesn't make sense to ever be <code>null</code>.
+            These should be required fields, that must be filled before any valid sensor can be registered (depends
+            on the application of course).
         </P>
         <P>
             <Code language='java'>{`
                 DocumentBuilder builder = Document.builder();
                 
-                // This check is pointless, our domain has a rule that every sensor
+                // This check is pointless, our design has a rule that every sensor
                 // must have an id. Checks like these only add noise to the code.
                 if (overview.sensorId != null) {
                     builder.addLink(detailsUrl(overview.sensorId))
@@ -92,7 +93,7 @@ export default () =>
         <ul>
             <li>
                 The producer—the part of the code that <em>creates</em> <code>SensorOverview</code> instances—must
-                guarantee that certain fields will never be null. The compiler should not let its code build if it tries
+                guarantee that certain fields will never be null. The compiler should not let its code compile if it tries
                 to create an instance where those fields could potentially be assigned a <code>null</code> value.
             </li>
             <li>
@@ -116,12 +117,12 @@ export default () =>
                 The producer must guarantee that the <code>name</code> field will always be a string, and not
                 a list or a number. Otherwise the compiler will not let that code build.
                 It makes no such guarantees about <code>extraData</code>, even though <code>extraData</code> <em>could</em> be a string
-                sometimes.
+                sometimes (in Java, all classes—including <code>String</code>—inherit from <code>Object</code>).
             </li>
             <li>
                 The consumer can rely on the fact that <code>name</code> is a string and not a list or a number.
                 It can just directly use it as a string. On the other hand, if it wants to use <code>extraData</code> as
-                some specific type, it must first perform a check that it really is of that type.
+                some specific type, it must first perform a check (or an assertion) that it really is of that type.
             </li>
         </ul>
         <P>
@@ -508,7 +509,7 @@ export default () =>
                 <P>
                     Instead of making it work with a <code>Field</code>, it would take <em>anything that can give it
                     a <code>Field</code></em>. We would then provide a way to get the field from our "anything" (<code>T</code>),
-                    either by passing a function <code>getField: (T) -> Field</code> to the validator, or by requiring that
+                    either by passing a function <code>getField: (T) -&gt; Field</code> to the validator, or by requiring that
                     our <code>T</code> implements some kind of <code>HasField</code> interface.
                 </P>
                 <P>
@@ -580,8 +581,18 @@ export default () =>
         </EA>
         <h4>The null object (anti?)pattern and magic values</h4>
         <P>
+            In many languages, there is a convention of expressing absence of a value by using a "special" value
+            that is still a member of the original type.
+        </P>
+        <P>
+            The most common example is using the value <code>-1</code> to signify the absence of an integer
+            in situations where the actual <em>number</em> <code>-1</code> doesn't make sense for what the value
+            represents (e.g. position within a string).
+        </P>
+        <P>
             TODO: responsibility split between caller/callee, even outside of this chapter as a common theme
             TODO: some parts of this chapter could use better examples. also to ease of use chapter, e.g. toInt() toIntOrNull()
+            TODO: check whether this really matches the definition of a magic value, or use a different proper term
         </P>
         <P>
 

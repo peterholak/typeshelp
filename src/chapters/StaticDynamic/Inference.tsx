@@ -8,8 +8,6 @@ export default () =>
     <Anchor aid={AnchorKey.Inference} useParent={true}>
         <h3>Explicit types and type inference</h3>
         <P>
-            TODO: mention and link to automatic narrowing somewhere in this chapter. the actual text should be in
-            the wider/narrower section
             In <strong>some</strong> static languages you have to explicitly write down the types
             in many places.
         </P>
@@ -82,8 +80,6 @@ export default () =>
             `}</Code>
         </EA>
         <P>
-            TODO: also show how a chain of things inferred e.g. from an anonymous function creating a pair
-            from two values, where one is the result of a function call, etc.
             Some people feel that relying a lot on type inference can worsen readability. These concerns
             are usually addressed with <EL eid={EK.InferenceReadability}>editor features</EL>.
         </P>
@@ -105,9 +101,19 @@ export default () =>
                 6: 'val email: String 🖊in🖊 User'
             }}</Code>
             <P>
+                Some tools can even show the type of more complicated expressions, instead of just individual variables.
+            </P>
+            <P>
                 The downside is that this feature may not be available in various web-based tools, e.g. while reviewing
-                a pull request on GitHub. That can be solved by making better web tools, or using browser extensions (TODO: sourcegraph?),
+                a pull request in an online tool. That can be solved by making better web tools, or using browser extensions (TODO: sourcegraph?),
                 but most people just don't bother.
+            </P>
+            <P>
+                GitHub recently added a limited form on code analysis TODO. It also works with some dynamic languages (TODO link to that other part)
+            </P>
+            <P>
+                TODO: also show how a chain of things inferred e.g. from an anonymous function creating a pair
+                from two values, where one is the result of a function call, etc.
             </P>
         </EA>
         <P>
@@ -132,4 +138,11 @@ export default () =>
                 }
             `}</Code>
         </div>
+        <P>
+            In the past, when type inference was not available in the most popular mainstream languages,
+            the verbosity of always typing specific types everywhere (especially long types such
+            as <code>{`Map<String, List<String>>`}</code>) was one of the most common arguments
+            against static typing in online discussions.
+            Many languages today also have some form of yet another verbosity reducing feature—automatic type narrowing (TODO link)
+        </P>
     </Anchor>

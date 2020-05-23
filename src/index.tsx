@@ -202,7 +202,10 @@ class App extends React.Component<{}, State> {
 
     toggleTheme = (e: React.MouseEvent) => {
         e.preventDefault()
-        const newTheme = { ...this.state.theme, ...{ theme: this.state.theme.theme === Theme.Light ? Theme.Dark : Theme.Light } }
+        const newTheme = {
+            ...this.state.theme,
+            ...{ theme: this.state.theme.theme === Theme.Light ? Theme.Dark : Theme.Light }
+        }
         this.setState({ theme: newTheme })
         applyThemeToDom(newTheme.theme)
         saveTheme(newTheme.theme)

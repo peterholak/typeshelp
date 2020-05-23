@@ -35,7 +35,7 @@ export enum CommentType {
     NotCorrect,
     OmitsImportantPoint,
     Great,
-    NeedlesslyOverexplained,
+    Boring,
     Other
 }
 

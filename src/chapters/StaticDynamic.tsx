@@ -6,14 +6,16 @@ import { ExpanderArea as EA, ExpanderKey as EK, ExpanderLink as EL } from 'ui/Ex
 import Code from 'ui/Code'
 import { LinkTo, AnchorKey, Anchor } from 'ui/Anchor'
 import { P, SummaryNavigation, MainSection, NavLink } from 'ui/Structure'
-import Workflow from 'chapters/StaticDynamic/Workflow'
-import Tests from 'chapters/StaticDynamic/Tests'
+import TestsSchemasSpecs from 'chapters/StaticDynamic/TestsSchemasSpecs'
 
 const StaticDynamic = () =>
     <MainSection>
         <Anchor aid={AnchorKey.StaticDynamic} useParent={true}>
         <h2>Static typing ↔ Dynamic typing</h2>
-        <P className="subtitle">Are types assigned when you are writing the program, or when it is running?</P>
+        <P className="subtitle">
+            Are types assigned when you are writing the program, or when it is running?
+            Does the editor/compiler know about the types of variables?
+        </P>
         <ul className="summary">
             <li>
                 In languages with <strong>static</strong> typing, types are determined
@@ -49,17 +51,16 @@ const StaticDynamic = () =>
                     <li>
                         This section will talk about
                         <SummaryNavigation>
-                            <NavLink aid={AnchorKey.Inference}>Type inference</NavLink>
                             <NavLink aid={AnchorKey.WholeProgram}>Whole program correctness</NavLink>
-                            <NavLink aid={AnchorKey.BlackAndWhite}>The gray area between these approaches</NavLink>
-                            <NavLink aid={AnchorKey.Workflows}>Workflows commonly used with them</NavLink>
+                            <NavLink aid={AnchorKey.Inference}>Type inference</NavLink>
+                            <NavLink aid={AnchorKey.BlackAndWhite}>Some gray area between these approaches</NavLink>
+                            <NavLink aid={AnchorKey.TestsSchemasSpecs}>How they relate to tests, schemas and specifications</NavLink>
                         </SummaryNavigation>
                     </li>
-                    <li><Inference /></li>
                     <li><WholeProgram /></li>
+                    <li><Inference /></li>
                     <li><Crossover /></li>
-                    <li><Workflow /></li>
-                    <li><Tests /></li>
+                    <li><TestsSchemasSpecs /></li>
                     
                     {/*
                         TODO you can make unwritten assumptions in dynamic languages, that you don't have to force-cast, etc.,
