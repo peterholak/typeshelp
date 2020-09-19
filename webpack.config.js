@@ -27,11 +27,13 @@ const config = {
         new HtmlWebpackPlugin({
             template: 'src/index.html'
         }),
-        new CopyWebpackPlugin([
-            { from: 'src/types.css', to: 'static/types.css' },
-            { from: 'node_modules/highlight.js/styles/github-gist.css', to: 'static/highlightjs-github-gist.css' },
-            { from: 'node_modules/highlight.js/styles/gruvbox-dark.css', to: 'static/highlightjs-gruvbox-dark.css' }
-        ]),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: 'src/types.css', to: 'static/types.css' },
+                { from: 'node_modules/highlight.js/styles/github-gist.css', to: 'static/highlightjs-github-gist.css' },
+                { from: 'node_modules/highlight.js/styles/gruvbox-dark.css', to: 'static/highlightjs-gruvbox-dark.css' }
+            ]
+        }),
         new WebpackCleanupPlugin({ exclude: ['static/*'] }),
     ],
     devtool: 'source-map',
